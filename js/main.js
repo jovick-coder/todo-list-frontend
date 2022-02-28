@@ -9,18 +9,19 @@ document.querySelector('#addTodo').addEventListener('click', () => {
     createTodo({ todo })
   }
 })
-
+onLoading()
 function onLoading() {
-  loading.style.display = 'block'
+  todoList.innerHTML = ''
+  todoList.innerHTML = '<div class="loading">Loading...</div>'
+  getTodos()
 }
 function offLoading() {
-  loading.style.display = 'none'
+  todoList.innerHTML = ''
 }
 
 // Get all todos
 async function getTodos() {
   // loading state on when the todo is not yet ready
-  onLoading()
 
   try {
     let response = await fetch(url)
@@ -37,8 +38,6 @@ async function getTodos() {
 
       todos.forEach((t) => {
         const { _id, todo, done } = t
-        console.log(done)
-        // ? (
         htmlTemp = `
               <li key='${_id}'>
                 <label class='todo-name' ${
@@ -55,14 +54,11 @@ async function getTodos() {
         todoList.innerHTML += htmlTemp
       })
     }
-
-    // console.log(todos)
   } catch (error) {
     console.error('Error -> ', error)
   }
 }
 
-getTodos()
 // Create a todo
 
 async function createTodo(obj) {
@@ -81,8 +77,7 @@ async function createTodo(obj) {
   })
 
   if (response.ok) {
-    getTodos()
-    // console.log('Added....')
+    onLoading()
   }
 
   // console.log('New Todo Added -> ', newTodo)
