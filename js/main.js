@@ -2,6 +2,13 @@ const url = 'https://jovick-todo-api.herokuapp.com/api/todos'
 const loading = document.querySelector('.loading')
 const todoList = document.querySelector('#todo-list')
 
+document.querySelector('#addTodo').addEventListener('click', () => {
+  const todo = prompt('Enter Your Todo')
+  if (todo !== '') {
+    createTodo({ todo })
+  }
+})
+
 function onLoading() {
   loading.style.display = 'block'
 }
@@ -52,14 +59,37 @@ async function getTodos() {
       })
     }
 
-    console.log(todos)
+    // console.log(todos)
   } catch (error) {
     console.error('Error -> ', error)
   }
 }
 
-getTodos()
-// Add a todo
+// getTodos()
+// Create a todo
+
+async function createTodo(obj) {
+  if (obj.length === 0) return
+
+  const { todo } = obj
+
+  const newTodo = { todo: todo, done: false }
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newTodo),
+  })
+
+  if (response.ok) {
+    getTodos()
+    // console.log('Added....')
+  }
+
+  // console.log('New Todo Added -> ', newTodo)
+}
 
 // Update a todo
 
