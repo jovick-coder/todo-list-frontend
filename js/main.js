@@ -67,20 +67,22 @@ async function createTodo(obj) {
   const { todo } = obj
 
   const newTodo = { todo: todo, done: false }
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newTodo),
-  })
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newTodo),
+    })
 
-  if (response.ok) {
-    onLoading()
+    if (response.ok) {
+      onLoading()
+    }
+  } catch (error) {
+    console.error('Error -> ', error)
   }
-
-  // console.log('New Todo Added -> ', newTodo)
 }
 
 // Update a todo
