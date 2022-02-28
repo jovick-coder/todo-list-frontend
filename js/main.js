@@ -1,4 +1,5 @@
-const url = 'https://jovick-todo-api.herokuapp.com/api/todos'
+// const url = 'https://jovick-todo-api.herokuapp.com/api/todos'
+const url = 'http://localhost:3000/api/todos'
 const loading = document.querySelector('.loading')
 const todoList = document.querySelector('#todo-list')
 
@@ -36,24 +37,20 @@ async function getTodos() {
 
       todos.forEach((t) => {
         const { _id, todo, done } = t
-        !done
-          ? (htmlTemp = `
+        console.log(done)
+        // ? (
+        htmlTemp = `
               <li key='${_id}'>
-                  <label class='todo-name' >
-                  <input type="checkbox" name="" id="" class='todo-check'"> ${todo}
-                  </label>
+                <label class='todo-name' ${
+                  done ? ` style='text-decoration: line-through'` : ''
+                } >
+                  <input type="checkbox" class='todo-check' ${
+                    done ? 'checked' : ''
+                  }> ${todo}
+                </label>
                 <div class='icon'> <img src="./img/trash.svg" alt="" srcset=""></div>
               </li>
-            `)
-          : (htmlTemp = `
-              <li key='${_id}'>
-
-              <label class='todo-name'style=' text-decoration: line-through' >
-              <input type="checkbox" name="" id="" class='todo-check'" checked> ${todo}
-              </label>
-              <div class='icon'> <img src="./img/trash.svg" alt="" srcset=""></div>
-              </li>
-            `)
+            `
 
         todoList.innerHTML += htmlTemp
       })
@@ -65,7 +62,7 @@ async function getTodos() {
   }
 }
 
-// getTodos()
+getTodos()
 // Create a todo
 
 async function createTodo(obj) {
