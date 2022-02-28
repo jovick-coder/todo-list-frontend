@@ -9,10 +9,12 @@ document.querySelector('#addTodo').addEventListener('click', () => {
     createTodo({ todo })
   }
 })
+// loading state on page load
 onLoading()
 function onLoading() {
   todoList.innerHTML = ''
   todoList.innerHTML = '<div class="loading">Loading...</div>'
+  // get data whill page is loading
   getTodos()
 }
 function offLoading() {
@@ -21,19 +23,17 @@ function offLoading() {
 
 // Get all todos
 async function getTodos() {
-  // loading state on when the todo is not yet ready
-
   try {
     let response = await fetch(url)
     let todos = await response.json()
     if (todos.length === 0) {
-      // message when datatbase is empty
+      // -- message when datatbase is empty
       todoList.innerHTML = "<div class='message'>No Todo found Add some</div>"
       return
     }
 
     if (todos) {
-      // loading state off when the todo is ready
+      // -- loading state off when the todo is ready
       offLoading()
 
       todos.forEach((t) => {
