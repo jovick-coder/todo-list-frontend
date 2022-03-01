@@ -101,7 +101,7 @@ function checkboxNode() {
         : (liElement.style.textDecoration = 'none')
 
       const updateTodo = !done ? { done: false } : { done: true }
-      loading.innerHTML = 'Loading...'
+      // loading.innerHTML = 'Loading...'
       updateTodos(key, updateTodo)
     }),
   )
@@ -124,7 +124,6 @@ async function updateTodos(id, updateTodo) {
 
 // Delete a todo
 function trachNode() {
-  console.log('dsfgvhnjm')
   const tash = document.querySelectorAll('#todo-list>li>.icon>img')
 
   tash.forEach((checkbox) =>
