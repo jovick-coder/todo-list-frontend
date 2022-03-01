@@ -1,5 +1,5 @@
-// const url = 'https://jovick-todo-api.herokuapp.com/api/todos'
-const url = 'http://localhost:3000/api/todos'
+const url = 'https://jovick-todo-api.herokuapp.com/api/todos'
+// const url = 'http://localhost:3000/api/todos'
 const loading = document.querySelector('.loading')
 const todoList = document.querySelector('#todo-list')
 
@@ -144,7 +144,7 @@ async function deleteTodo(id) {
     },
   }
 
-  const responce = await fetch(`${url}/${idk}`, request)
+  const responce = await fetch(`${url}/${id}`, request)
 
   if (responce.ok) {
     onLoading()
