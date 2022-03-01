@@ -12,6 +12,7 @@ document.querySelector('#addTodo').addEventListener('click', () => {
 // loading state on page load
 onLoading()
 function onLoading() {
+  todoList.innerHTML = ''
   loading.innerHTML = 'Loading...'
   // -- get data whill page is loading
   getTodos()
@@ -58,6 +59,7 @@ async function getTodos() {
     console.error('Error -> ', error)
   }
   checkboxNode()
+  trachNode()
 }
 
 // Create a todo
@@ -121,3 +123,30 @@ async function updateTodos(id, updateTodo) {
 }
 
 // Delete a todo
+function trachNode() {
+  console.log('dsfgvhnjm')
+  const tash = document.querySelectorAll('#todo-list>li>.icon>img')
+
+  tash.forEach((checkbox) =>
+    checkbox.addEventListener('click', (c) => {
+      const liElement = c.path[2]
+      const key = liElement.getAttribute('key')
+      deleteTodo(key)
+    }),
+  )
+}
+
+async function deleteTodo(id) {
+  const request = {
+    method: 'DELETE',
+    header: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const responce = await fetch(`${url}/${idk}`, request)
+
+  if (responce.ok) {
+    onLoading()
+  }
+}
