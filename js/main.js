@@ -86,5 +86,38 @@ async function createTodo(obj) {
 }
 
 // Update a todo
+function checkboxNode() {
+  const checkboxs = document.querySelectorAll('#todo-list>li>label>input')
+
+  checkboxs.forEach((checkbox) =>
+    checkbox.addEventListener('click', (c) => {
+      const done = c.target.checked
+      const liElement = c.path[2]
+      const key = liElement.getAttribute('key')
+      done
+        ? (liElement.style.textDecoration = 'line-through')
+        : (liElement.style.textDecoration = 'none')
+
+      const updateTodo = !done ? { done: false } : { done: true }
+      loading.innerHTML = 'Loading...'
+      updateTodos(key, updateTodo)
+    }),
+  )
+}
+
+async function updateTodos(id, updateTodo) {
+  const request = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updateTodo),
+  }
+  const responce = await fetch(`${url}/${id}`, request)
+
+  if (responce.ok) {
+    offLoading()
+  }
+}
 
 // Delete a todo
