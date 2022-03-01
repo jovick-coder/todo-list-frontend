@@ -12,13 +12,13 @@ document.querySelector('#addTodo').addEventListener('click', () => {
 // loading state on page load
 onLoading()
 function onLoading() {
-  todoList.innerHTML = ''
-  todoList.innerHTML = '<div class="loading">Loading...</div>'
-  // get data whill page is loading
+  loading.innerHTML = 'Loading...'
+  // -- get data whill page is loading
   getTodos()
 }
 function offLoading() {
-  todoList.innerHTML = ''
+  loading.innerHTML = ''
+  // todoList
 }
 
 // Get all todos
@@ -28,7 +28,7 @@ async function getTodos() {
     let todos = await response.json()
     if (todos.length === 0) {
       // -- message when datatbase is empty
-      todoList.innerHTML = "<div class='message'>No Todo found Add some</div>"
+      loading.innerHTML = "<div class='message'>No Todo found Add some</div>"
       return
     }
 
@@ -57,10 +57,10 @@ async function getTodos() {
   } catch (error) {
     console.error('Error -> ', error)
   }
+  checkboxNode()
 }
 
 // Create a todo
-
 async function createTodo(obj) {
   if (obj.length === 0) return
 
