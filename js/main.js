@@ -3,7 +3,8 @@ const url = 'https://jovick-todo-api.herokuapp.com/api/todos'
 const loading = document.querySelector('.loading')
 const todoList = document.querySelector('#todo-list')
 
-document.querySelector('#addTodo').addEventListener('click', () => {
+document.querySelector('#addTodo').addEventListener('click', (e) => {
+  e.preventDefault()
   const todo = prompt('Enter Your Todo')
   if (todo !== '') {
     createTodo({ todo })
