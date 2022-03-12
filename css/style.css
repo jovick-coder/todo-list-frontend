@@ -101,7 +101,7 @@ li div {
 }
 
 .add-todo-btn {
-  border: solid;
+  border: none;
   box-shadow: 1px 1px 1px 1px rgba(160, 160, 160, 0.5);
   position: absolute;
   bottom: -20px;
