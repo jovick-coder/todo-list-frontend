@@ -4,6 +4,7 @@ const loading = document.querySelector('.loading')
 const todoList = document.querySelector('#todo-list')
 addTodoBtn = document.querySelector('.add-todo-btn')
 formDiv = document.querySelector('.form-div')
+todoInput = document.querySelector('#todo-input')
 error = document.querySelector('.error')
 
 addTodoBtn.addEventListener('click', (e) => {
@@ -13,25 +14,24 @@ addTodoBtn.addEventListener('click', (e) => {
 
 document.querySelector('#addTodo').addEventListener('click', (e) => {
   e.preventDefault()
-  todoInput = document.querySelector('#todo-input')
 
   if (todoInput.value === '') {
     error.innerHTML = 'Enter a todo input'
     return
   }
 
-  formDiv.style.display = 'none'
-  addTodoBtn.style.display = 'inline-block'
-  const newTodo = todoInput.value
-  createTodo({ newTodo })
-  error.innerHTML = ''
-  todoInput.value = ''
+  const todo = todoInput.value
+  createTodo({ todo })
 })
 // loading state on page load
-// onLoading()
+onLoading()
 function onLoading() {
   todoList.innerHTML = ''
   loading.innerHTML = 'Loading...'
+  formDiv.style.display = 'none'
+  addTodoBtn.style.display = 'inline-block'
+  error.innerHTML = ''
+  todoInput.value = ''
   // -- get data whill page is loading
   getTodos()
 }
@@ -83,7 +83,6 @@ async function getTodos() {
 // Create a todo
 async function createTodo(obj) {
   if (obj.length === 0) return
-
   const { todo } = obj
 
   const newTodo = { todo: todo, done: false }
@@ -154,6 +153,10 @@ function trachNode() {
 }
 
 async function deleteTodo(id) {
+  let checkConfirm = confirm('Delete Todo!')
+  if (checkConfirm === false) {
+    return
+  }
   const request = {
     method: 'DELETE',
     header: {
