@@ -2,16 +2,33 @@ const url = 'https://jovick-todo-api.herokuapp.com/api/todos'
 // const url = 'http://localhost:3000/api/todos'
 const loading = document.querySelector('.loading')
 const todoList = document.querySelector('#todo-list')
+addTodoBtn = document.querySelector('.add-todo-btn')
+formDiv = document.querySelector('.form-div')
+error = document.querySelector('.error')
+
+addTodoBtn.addEventListener('click', (e) => {
+  formDiv.style.display = 'block'
+  addTodoBtn.style.display = 'none'
+})
 
 document.querySelector('#addTodo').addEventListener('click', (e) => {
   e.preventDefault()
-  const todo = prompt('Enter Your Todo')
-  if (todo !== '') {
-    createTodo({ todo })
+  todoInput = document.querySelector('#todo-input')
+
+  if (todoInput.value === '') {
+    error.innerHTML = 'Enter a todo input'
+    return
   }
+
+  formDiv.style.display = 'none'
+  addTodoBtn.style.display = 'inline-block'
+  const newTodo = todoInput.value
+  createTodo({ newTodo })
+  error.innerHTML = ''
+  todoInput.value = ''
 })
 // loading state on page load
-onLoading()
+// onLoading()
 function onLoading() {
   todoList.innerHTML = ''
   loading.innerHTML = 'Loading...'
