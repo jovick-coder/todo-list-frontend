@@ -17,6 +17,7 @@
             </div>
             <div class="main-card">
                 <form id="loginForm">
+                    <div id="message"></div>
                     <div class="input-div">
                         <input type="email" placeholder="Email">
                     </div>
@@ -26,10 +27,10 @@
                     <div class="input-div">
                         <button id="loginBtn" type="submit">Login</button>
                     </div>
-                    <div class="input-div">
-                        New here? <a href="register.html">Create account</a>
-                    </div>
                 </form>
+                <div class="input-div">
+                    New here? <a href="register.html">Create account</a>
+                </div>
 
             </div>
         </div>
@@ -40,23 +41,28 @@
         'use strict';
         
         const loginForm = document.getElementById('loginForm')
+        const message = document.getElementById('message')
         const loginBtn = document.getElementById('loginBtn')
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault()
-
+message.innerHTML = ''
             const formElm = e.srcElement
 
             if (formElm[0].value === '') {
+                formElm[0].style.borderBottom = 'solid rgb(250, 43, 6)'
                 console.log('Email not fill');
                 return
             }
             if (formElm[1].value === '') {
+                formElm[0].style.borderBottom = 'solid #c441f0 1px'
+                formElm[1].style.borderBottom = 'solid rgb(250, 43, 6)'
                 console.log('Password not fill');
                 return
             }
+                formElm[1].style.borderBottom = 'solid #c441f0 1px'
 
             loginBtn.disabled =true
-  loginBtn.style. backgroundColor = '#df84fe';
+            loginBtn.style. backgroundColor = '#df84fe';
             loginBtn.innerText = 'Authenticating ...'
             login(formElm)
 
@@ -77,6 +83,17 @@
                 }),
             })
 
+            if (!rawResponse.ok) {
+                loginBtn.disabled = false
+                 loginBtn.style.backgroundColor = '#c441f0';
+            loginBtn.innerText = 'Login'
+                message.innerHTML += `
+                <div>User not found</div>
+                `
+
+            //     loginBtn.style.borderBottom = ' solid #06fa2f';
+            // loginBtn.innerText = 'Welcome Back'
+            }
             if (rawResponse.ok) {
                 loginBtn.style. backgroundColor = '#06fa2f';
             loginBtn.innerText = 'Welcome Back'
