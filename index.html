@@ -6,37 +6,92 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/style.css" />
-    <title>Todo List UI</title>
+    <title>Login</title>
 </head>
 
 <body>
     <div class="flexbox">
         <div class="todo-div">
             <div class="top-nav">
-                Website Todolist
+                Login
             </div>
             <div class="main-card">
-                <div class="error"></div>
-                <div class="loading"></div>
-                <ul id="todo-list">
-
-                </ul>
-            </div>
-            <div class="form-div">
-                <form action="">
-                    <div class="form-div-elemts">
-                        <input type="text" id="todo-input" placeholder="Enter a new Todo">
-                        <button type="submit" id="addTodo">Send</button>
+                <form id="loginForm">
+                    <div class="input-div">
+                        <input type="email" placeholder="Email">
+                    </div>
+                    <div class="input-div">
+                        <input type="password" placeholder="Password">
+                    </div>
+                    <div class="input-div">
+                        <button id="loginBtn" type="submit">Login</button>
+                    </div>
+                    <div class="input-div">
+                        New here? <a href="register.html">Create account</a>
                     </div>
                 </form>
+
             </div>
-            <button class="add-todo-btn">
-                + New task
-            </button>
         </div>
     </div>
 
-    <script src="./js/main.js"></script>
+    <!-- <script src="./js/main.js"></script> -->
+    <script>
+        'use strict';
+        
+        const loginForm = document.getElementById('loginForm')
+        const loginBtn = document.getElementById('loginBtn')
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            const formElm = e.srcElement
+
+            if (formElm[0].value === '') {
+                console.log('Email not fill');
+                return
+            }
+            if (formElm[1].value === '') {
+                console.log('Password not fill');
+                return
+            }
+
+            loginBtn.disabled =true
+  loginBtn.style. backgroundColor = '#df84fe';
+            loginBtn.innerText = 'Authenticating ...'
+            login(formElm)
+
+        })
+       
+        async function login(input) {
+            const url = ' http://localhost:3000/api/auth/login'
+        try {
+            const rawResponse = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                 body: JSON.stringify({
+                    email: input[0].value,
+                    password: input[1].value,
+                }),
+            })
+
+            if (rawResponse.ok) {
+                loginBtn.style. backgroundColor = '#06fa2f';
+            loginBtn.innerText = 'Welcome Back'
+                const content = await rawResponse.json()
+                // console.log(content.token);
+localStorage.setItem('todoAuthToken', content.token )
+location.replace('/todo.html')
+            }
+        
+        } catch (error) {
+            console.log('Error ->', error);
+        }
+
+    }
+    </script>
 </body>
 
 </html>
