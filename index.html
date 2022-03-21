@@ -39,13 +39,13 @@
     <!-- <script src="./js/main.js"></script> -->
     <script>
         'use strict';
-        
+
         const loginForm = document.getElementById('loginForm')
         const message = document.getElementById('message')
         const loginBtn = document.getElementById('loginBtn')
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault()
-message.innerHTML = ''
+            message.innerHTML = ''
             const formElm = e.srcElement
 
             if (formElm[0].value === '') {
@@ -59,55 +59,51 @@ message.innerHTML = ''
                 console.log('Password not fill');
                 return
             }
-                formElm[1].style.borderBottom = 'solid #c441f0 1px'
+            formElm[1].style.borderBottom = 'solid #c441f0 1px'
 
-            loginBtn.disabled =true
-            loginBtn.style. backgroundColor = '#df84fe';
+            loginBtn.disabled = true
+            loginBtn.style.backgroundColor = '#df84fe';
             loginBtn.innerText = 'Authenticating ...'
             login(formElm)
 
         })
-       
+
         async function login(input) {
             const url = ' http://localhost:3000/api/auth/login'
-        try {
-            const rawResponse = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                 body: JSON.stringify({
-                    email: input[0].value,
-                    password: input[1].value,
-                }),
-            })
+            try {
+                const rawResponse = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: input[0].value,
+                        password: input[1].value,
+                    }),
+                })
 
-            if (!rawResponse.ok) {
-                loginBtn.disabled = false
-                 loginBtn.style.backgroundColor = '#c441f0';
-            loginBtn.innerText = 'Login'
-                message.innerHTML += `
+                if (!rawResponse.ok) {
+                    loginBtn.disabled = false
+                    loginBtn.style.backgroundColor = '#c441f0';
+                    loginBtn.innerText = 'Login'
+                    message.innerHTML += `
                 <div>User not found</div>
                 `
+                }
+                if (rawResponse.ok) {
+                    loginBtn.style.backgroundColor = '#06fa2f';
+                    loginBtn.innerText = 'Welcome Back'
+                    const content = await rawResponse.json()
+                    localStorage.setItem('todoAuthToken', content.token)
+                    location.replace('/todo.html')
+                }
 
-            //     loginBtn.style.borderBottom = ' solid #06fa2f';
-            // loginBtn.innerText = 'Welcome Back'
+            } catch (error) {
+                console.log('Error ->', error);
             }
-            if (rawResponse.ok) {
-                loginBtn.style. backgroundColor = '#06fa2f';
-            loginBtn.innerText = 'Welcome Back'
-                const content = await rawResponse.json()
-                // console.log(content.token);
-localStorage.setItem('todoAuthToken', content.token )
-location.replace('/todo.html')
-            }
-        
-        } catch (error) {
-            console.log('Error ->', error);
+
         }
-
-    }
     </script>
 </body>
 
