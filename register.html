@@ -16,29 +16,127 @@
                 Register
             </div>
             <div class="main-card">
-                <div class="input-div">
-                    <input type="text" placeholder="Name">
-                </div>
-                <div class="input-div">
-                    <input type="text" placeholder="Email">
-                </div>
-                <div class="input-div">
-                    <input type="password" placeholder="Password">
-                </div>
-                <div class="input-div">
-                    <input type="password" placeholder="Re-enterPassword">
-                </div>
-                <div class="input-div">
-                    <button>Register</button>
-                </div>
-                <div class="input-div">
-                    Have an account? <a href="index.html">Login</a>
-                </div>
+                <form id="regForm">
+                    <div id="message"></div>
+                    <div class="input-div">
+                        <input type="text" placeholder="Name">
+                    </div>
+                    <div class="input-div">
+                        <input type="text" placeholder="Email">
+                    </div>
+                    <div class="input-div">
+                        <input type="password" placeholder="Password">
+                    </div>
+                    <div class="input-div">
+                        <input type="password" placeholder="Re-enterPassword">
+                    </div>
+                    <div class="input-div">
+                        <button id="regBtn">Register</button>
+                    </div>
+                    <div class="input-div">
+                        Have an account? <a href="index.html">Login</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <!-- <script src="./js/main.js"></script> -->
+    <script>
+        'use strict';
+
+        const regForm = document.getElementById('regForm')
+        const message = document.getElementById('message')
+        const regBtn = document.getElementById('regBtn')
+        regForm.addEventListener('submit', async (e) => {
+            e.preventDefault()
+            message.innerHTML = ''
+            const formElm = e.srcElement
+
+            if (formElm[0].value === '') {
+                formElm[0].style.borderBottom = 'solid rgb(250, 43, 6)'
+                console.log('Email not fill');
+                return
+            }
+            if (formElm[1].value === '') {
+                formElm[0].style.borderBottom = 'solid #c441f0 1px'
+                formElm[1].style.borderBottom = 'solid rgb(250, 43, 6)'
+                console.log('Password not fill');
+                return
+            }
+            if (formElm[2].value === '') {
+                formElm[1].style.borderBottom = 'solid #c441f0 1px'
+                // formElm[1].style.borderBottom = 'solid rgb(250, 43, 6)'
+                formElm[2].style.borderBottom = 'solid rgb(250, 43, 6)'
+                console.log('Password not fill');
+                return
+            }
+            if (formElm[3].value === '') {
+                formElm[2].style.borderBottom = 'solid #c441f0 1px'
+                formElm[3].style.borderBottom = 'solid rgb(250, 43, 6)'
+                console.log('Password not fill');
+                return
+            }
+            formElm[0].style.borderBottom = 'solid #c441f0 1px'
+            formElm[1].style.borderBottom = 'solid #c441f0 1px'
+            formElm[2].style.borderBottom = 'solid #c441f0 1px'
+            formElm[3].style.borderBottom = 'solid #c441f0 1px'
+            
+            if(formElm[2].value !== formElm[3].value){
+                formElm[2].style.borderBottom = 'solid rgb(250, 43, 6)'
+                formElm[3].style.borderBottom = 'solid rgb(250, 43, 6)'
+                message.innerHTML='Password not match'
+                return
+            }
+            formElm[2].style.borderBottom = 'solid #c441f0 1px'
+            formElm[3].style.borderBottom = 'solid #c441f0 1px'
+
+            regBtn.disabled = true
+            regBtn.style.backgroundColor = '#df84fe';
+            regBtn.innerText = 'Registering ...'
+            register(formElm)
+
+        })
+
+        async function register(input) {
+            // console.log(input);
+            const url = ' http://localhost:3000/api/auth/reg'
+            try {
+                const rawResponse = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: input[0].value,
+                        email: input[1].value,
+                        password: input[2].value,
+                    }),
+                })
+
+                
+                if (!rawResponse.ok) {
+                    console.log(await rawResponse.json())
+                    message.innerHTML += `
+                <div>User not found</div>
+                `
+                }
+                if (rawResponse.ok) {
+                    regBtn.disabled = true
+                    regBtn.style.backgroundColor = '#06fa2f';
+                    regBtn.innerText = 'Registered, login now'
+                    // const content = await rawResponse.json()
+                    // localStorage.setItem('todoAuthToken', content.token)
+                    // location.replace('/todo.html')
+                }
+
+            } catch (error) {
+                console.log('Error ->', error);
+            }
+
+        }
+    </script> 
 </body>
 
 </html>
