@@ -22,7 +22,7 @@
                         <input type="email" placeholder="Email">
                     </div>
                     <div class="input-div">
-                        <input type="password" placeholder="Password">
+                        <input type="password" autocomplete="current-password" placeholder="Password">
                     </div>
                     <div class="input-div">
                         <button id="loginBtn" type="submit">Login</button>
@@ -59,6 +59,7 @@
                 console.log('Password not fill');
                 return
             }
+            formElm[0].style.borderBottom = 'solid #c441f0 1px'
             formElm[1].style.borderBottom = 'solid #c441f0 1px'
 
             loginBtn.disabled = true
