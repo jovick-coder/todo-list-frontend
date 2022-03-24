@@ -45,6 +45,9 @@
     <script>
         'use strict';
 
+        const url = 'https://jovick-todo-api.herokuapp.com/api/todos'
+// const url = 'http://localhost:3000/api/todos'
+
         const regForm = document.getElementById('regForm')
         const message = document.getElementById('message')
         const regBtn = document.getElementById('regBtn')
@@ -100,7 +103,7 @@
 
         async function register(input) {
             // console.log(input);
-            const url = ' http://localhost:3000/api/auth/reg'
+            const url = `${url}/api/auth/reg`
             try {
                 const rawResponse = await fetch(url, {
                     method: 'POST',
