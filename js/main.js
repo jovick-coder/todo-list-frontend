@@ -15,13 +15,18 @@ addTodoBtn.addEventListener('click', (e) => {
 document.querySelector('#addTodo').addEventListener('click', (e) => {
   e.preventDefault()
 
+  const token = localStorage.getItem('todoAuthToken')
+  
+  if (!token || token === '') { 
+    return
+  }
   if (todoInput.value === '') {
     error.innerHTML = 'Enter a todo input'
     return
   }
 
   const todo = todoInput.value
-  createTodo({ todo })
+  createTodo({ todo, token })
 })
 // loading state on page load
 onLoading()
@@ -42,8 +47,20 @@ function offLoading() {
 
 // Get all todos
 async function getTodos() {
+  const token = localStorage.getItem('todoAuthToken')
+  
+  if (!token || token === '') { 
+    return
+  }
   try {
-    let response = await fetch(url)
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({token:token}),
+    })
     let todos = await response.json()
     if (todos.length === 0) {
       // -- message when datatbase is empty
@@ -83,11 +100,11 @@ async function getTodos() {
 // Create a todo
 async function createTodo(obj) {
   if (obj.length === 0) return
-  const { todo } = obj
+  const { todo, token } = obj
 
-  const newTodo = { todo: todo, done: false }
+  const newTodo = { todo: todo, token:token , done: false }
   try {
-    const response = await fetch(url, {
+    const response = await fetch(url+'/newTodo', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -95,7 +112,7 @@ async function createTodo(obj) {
       },
       body: JSON.stringify(newTodo),
     })
-
+// console.log(await response.json());
     if (response.ok) {
       onLoading()
     }
@@ -169,4 +186,16 @@ async function deleteTodo(id) {
   if (responce.ok) {
     onLoading()
   }
+}
+
+
+const logout = () => {
+  const logout = confirm('Do you want to logout...')
+  let token = localStorage.getItem('todoAuthToken')
+  if (!logout) return
+  
+  console.log(token);
+  localStorage.removeItem('todoAuthToken')
+  location.replace('/')
+
 }
