@@ -27,12 +27,26 @@ html {
 }
 .top-nav {
   width: 100%;
-  text-align: center;
-  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
   background-color: #c441f0;
   color: #ffffff;
   box-shadow: 5px 5px 15px rgba(160, 160, 160, 0.5);
 }
+.top-nav div{
+  padding: 0 20px;
+display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.top-nav button{
+height: 40px;
+border: none;
+border-radius: 0;
+background: red;
+color: #fff;
+}
+
 .main-card {
   margin-top: 15px;
   background-color: #ffffff;
