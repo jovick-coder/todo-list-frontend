@@ -7,14 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/style.css" />
     <title>Todo List UI</title>
+    <script src="js/auth.js"></script>
 </head>
 
 <body>
     <div class="flexbox">
         <div class="todo-div">
-            <div class="top-nav">
-                <div>Website Todolist</div>
-                <button>Logout</button>
+            <div class="top-nav todo">
+                <div id='todo-user'>Website Todolist</div>
+                <button onclick="logout()">Logout</button>
             </div>
             <div class="main-card">
                 <div class="error"></div>
@@ -38,6 +39,18 @@
     </div>
 
     <script src="./js/main.js"></script>
+    <script>
+const tokenArray = token.split('.')
+const payload = tokenArray[1]
+const decoedPayload = atob(payload)
+uData = JSON.parse(decoedPayload)
+
+const todoUser = document.querySelector('#todo-user')
+const {uName} = uData
+
+
+todoUser.innerHTML = `${uName}\`s Todolist`
+    </script>
 </body>
 
 </html>
