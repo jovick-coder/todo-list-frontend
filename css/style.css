@@ -54,8 +54,11 @@ color: #fff;
 .main-card {
   margin-top: 15px;
   background-color: #ffffff;
-  padding: 20px 30px;
+  padding: 20px 0px;
   box-shadow: 5px 5px 15px rgba(160, 160, 160, 0.5);
+}
+.main-card.form {
+  padding: 20px 30px;
 }
 ul {
   list-style: none;
