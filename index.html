@@ -39,8 +39,7 @@
     <!-- <script src="./js/main.js"></script> -->
     <script>
         'use strict';
-        const url = 'https://jovick-todo-api.herokuapp.com/api/todos'
-// const url = 'http://localhost:3000/api/todos'
+ 
 
         const loginForm = document.getElementById('loginForm')
         const message = document.getElementById('message')
@@ -72,9 +71,11 @@
         })
 
         async function login(input) {
-            const url = `${url}/auth/login`
+            const url = 'https://jovick-todo-api.herokuapp.com/api'
+// const url = 'http://localhost:3000/api'
+        
             try {
-                const rawResponse = await fetch(url, {
+                const rawResponse = await fetch(`${url}/auth/login`, {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',
